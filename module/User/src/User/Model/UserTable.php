@@ -4,6 +4,7 @@ namespace User\Model;
 
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
 
 class UserTable extends AbstractTableGateway
 {
@@ -57,4 +58,14 @@ class UserTable extends AbstractTableGateway
         $this->tableGateway->delete(array('id' => $id));
     }
 
+    // Usado para paginação
+    public function getSql()
+    {
+        return $this->tableGateway->getSql();
+    }
+    public function getSelect()
+    {
+        $select = new Select($this->tableGateway->getTable());
+        return $select;
+    }
 }

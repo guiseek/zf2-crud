@@ -62,7 +62,7 @@ class User
                          'options' => array(
                              'encoding' => 'UTF-8',
                              'min'      => 1,
-                             'max'      => 100,
+                             'max'      => 20,
                          ),
                      ),
                  ),
@@ -80,8 +80,8 @@ class User
                          'name'    => 'StringLength',
                          'options' => array(
                              'encoding' => 'UTF-8',
-                             'min'      => 1,
-                             'max'      => 100,
+                             'min'      => 8,
+                             'max'      => 20,
                          ),
                      ),
                  ),

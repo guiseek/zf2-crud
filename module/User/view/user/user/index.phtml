@@ -1,29 +1,37 @@
-<?php 
-$title = 'Usuários';
-$this->headTitle($title);
-?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
-<p><a href="<?php echo $this->url('user', array( 
-        'action'=>'add'));?>">Adicionar um usuário</a></p>
-
-<table class="table">
+<div class="page-header">
+    <h1><?php echo $this->escapeHtml($this->title); ?></h1>
+</div>
+<p>
+    <a class="btn btn-primary" href="<?php echo $this->urlAdd; ?>">
+        <span class="glyphicon glyphicon-user"></span> Adicionar um usuário
+    </a>
+</p>
+<?php echo $this->partial('messages.phtml'); ?>
+<table class="table table-hover">
 <tr>
     <th>Usuário</th>
     <th>Nome</th>
     <th>E-mail</th>
     <th>&nbsp;</th>
 </tr>
-<?php foreach($users as $user) : ?>
+<?php foreach($this->paginator as $user): ?>
 <tr>
-    <td><?php echo $this->escapeHtml($user->username);?></td>
-    <td><?php echo $this->escapeHtml($user->nome);?></td>
-    <td><?php echo $this->escapeHtml($user->email);?></td>
+    <td><?php echo $this->escapeHtml($user->username); ?></td>
+    <td><?php echo $this->escapeHtml($user->nome); ?></td>
+    <td><?php echo $this->escapeHtml($user->email); ?></td>
     <td>
-        <a href="<?php echo $this->url('user',
-            array('action'=>'edit', 'id' => $user->id));?>">Editar</a>
-        <a href="<?php echo $this->url('user',
-            array('action'=>'delete', 'id' => $user->id));?>">Deletar</a>
+        <a class="btn btn-primary btn-xs" title="Editar" href="<?php echo $this->placeholder('url')->edit .'/'. $user->id; ?>">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+        <a class="btn btn-danger btn-xs" title="Remover" href="<?php echo $this->placeholder('url')->delete .'/'. $user->id; ?>">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
     </td>
 </tr>
 <?php endforeach; ?>
+<?php //echo $this->partialLoop('users.phtml', $this->paginator); ?>
 </table>
+
+<div>
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination', array('route' => 'user')); ?>
+</div>

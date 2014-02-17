@@ -18,7 +18,7 @@ return array(
             'user' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/user[/:action][/:id]',
+                    'route'    => '/user[/][/:action][/:id][page/:page]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
@@ -26,6 +26,8 @@ return array(
                     'defaults' => array(
                         'controller' => 'User\Controller\User',
                         'action'     => 'index',
+                        'id'    => null,
+                        'page'  => '1',
                     ),
                 ),
             ),
@@ -34,7 +36,7 @@ return array(
 
     'view_manager' => array(
         'template_path_stack' => array(
-            'album' => __DIR__ . '/../view',
+            'user' => __DIR__ . '/../view',
         ),
     ),
 );

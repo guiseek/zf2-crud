@@ -9,20 +9,51 @@
 
 namespace User\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 use User\Model\User;
 use User\Form\UserForm;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Paginator\Adapter\DbSelect;
+use Zend\Paginator\Paginator;
+use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractActionController
 {
 	protected $userTable;
 
+    public function setAndGetTitle()
+    {
+        $title = 'Usuários';
+        $headTitle = $this->getSm()->get('viewhelpermanager')->get('HeadTitle');
+        $headTitle($title);
+        return $title;
+    }
+
     public function indexAction()
     {
+        $partialLoop = $this->getSm()->get('viewhelpermanager')->get('PartialLoop');
+        $partialLoop->setObjectKey('user');
+
+        $urlAdd = $this->url()->fromRoute('user', array('action' => 'add'));
+        $urlEdit = $this->url()->fromRoute('user', array('action' => 'edit'));
+        $urlDelete = $this->url()->fromRoute('user', array('action' => 'delete'));
+        $urlHome = $this->url()->fromRoute('home');
+
+        $placeHolder = $this->getSm()->get('viewhelpermanager')->get('Placeholder');
+        $placeHolder('url')->edit = $urlEdit;
+        $placeHolder('url')->delete = $urlDelete;
+
+        $pageAdapter = new DbSelect($this->getUserTable()->getSelect(), $this->getUserTable()->getSql());
+        $paginator = new Paginator($pageAdapter);
+        $paginator->setItemCountPerPage(5);
+        $paginator->setCurrentPageNumber($this->params()->fromRoute('page', 1));
+
         return new ViewModel(
             array(
-                'users' => $this->getUserTable()->fetchAll(),
+                'paginator' => $paginator,
+                //'users' => $this->getUserTable()->fetchAll(),
+                'title' => $this->setAndGetTitle(),
+                'urlAdd' => $urlAdd,
+                'urlHome' => $urlHome,
             )
         );
     }
@@ -39,31 +70,35 @@ class UserController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $user->exchangeArray($form->getData());
-                $this->getUserTable()->saveUser($user);
+
+                try {
+                    $this->getUserTable()->saveUser($user);
+                    $this->flashMessenger()->addSuccessMessage('Usuário adicionado com sucesso.');
+                } catch (Zend_Exception $e) {
+                    $this->flashMessenger()->addErrorMessage($e->getMessage());
+                }
+
+                
 
                 // Redirect to list of users
                 return $this->redirect()->toRoute('user');
             }
         }
 
-        return array('form' => $form);
+        return array(
+            'form' => $form,
+            'title' => $this->setAndGetTitle(),
+        );
     }
 
     public function editAction()
     {
-        $id = (int) $this->params('id');
-        if (!$id) {
+        $id = (int) $this->params()->fromRoute('id', null);
+        if (is_null($id)) {
             return $this->redirect()->toRoute('user', array('action'=>'add'));
         }
 
-        try {
-            $user = $this->getUserTable()->getUser($id);
-        }
-        catch (\Exception $ex) {
-            return $this->redirect()->toRoute('user', array(
-                'action' => 'index'
-            ));
-        }
+        $user = $this->getUserTable()->getUser($id);
 
         $form = new UserForm();
         $form->bind($user);
@@ -77,6 +112,8 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getUserTable()->saveUser($user);
 
+                $this->flashMessenger()->addSuccessMessage('Usuário alterado com sucesso.');
+
                 // Redirect to list of albums
                 return $this->redirect()->toRoute('user');
             }
@@ -85,22 +122,25 @@ class UserController extends AbstractActionController
         return array(
             'id' => $id,
             'form' => $form,
+            'title' => $this->setAndGetTitle(),
         );
     }
 
     public function deleteAction()
     {
-        $id = (int) $this->params('id');
-        if (!$id) {
+        $id = (int) $this->params()->fromRoute('id', null);
+        if (is_null($id)) {
             return $this->redirect()->toRoute('user');
         }
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $del = $request->getPost()->get('del', 'No');
-            if ($del == 'Yes') {
+            $del = $request->getPost()->get('del', 'Nao');
+            if ($del == 'Sim') {
                 $id = (int) $request->getPost()->get('id');
                 $this->getUserTable()->deleteUser($id);
+
+                $this->flashMessenger()->addSuccessMessage('Usuário removido com sucesso.');
             }
 
             // Redirect to list of albums
@@ -109,7 +149,8 @@ class UserController extends AbstractActionController
 
         return array(
             'id' => $id,
-            'user' => $this->getUserTable()->getUser($id)
+            'user' => $this->getUserTable()->getUser($id),
+            'title' => $this->setAndGetTitle(),
         );
     }
 
@@ -121,4 +162,10 @@ class UserController extends AbstractActionController
         }
         return $this->userTable;
     }
+
+    public function getSm()
+    {
+        return $this->getEvent()->getApplication()->getServiceManager();
+    }
+
 }
