@@ -6,7 +6,6 @@
         <span class="glyphicon glyphicon-user"></span> Adicionar um usuário
     </a>
 </p>
-<?php echo $this->partial('messages.phtml'); ?>
 <table class="table table-hover">
 <tr>
     <th>Usuário</th>
@@ -23,7 +22,16 @@
         <a class="btn btn-primary btn-xs" title="Editar" href="<?php echo $this->placeholder('url')->edit .'/'. $user->id; ?>">
             <span class="glyphicon glyphicon-pencil"></span>
         </a>
-        <a class="btn btn-danger btn-xs" title="Remover" href="<?php echo $this->placeholder('url')->delete .'/'. $user->id; ?>">
+        <!--
+            data-toggle="modal"
+            data-target=".bs-example-modal-sm"
+        -->        
+        <a
+            class="btn btn-danger btn-xs delete"
+            data-user="<?php echo $this->escapeHtml($user->username); ?>"
+            title="Remover"
+            href="<?php echo $this->placeholder('url')->delete .'/'. $user->id; ?>"
+            >
             <span class="glyphicon glyphicon-trash"></span>
         </a>
     </td>
@@ -35,3 +43,39 @@
 <div>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination', array('route' => 'user')); ?>
 </div>
+
+<!-- Questiona exclusão de um usuário -->
+<div id="confirmDelete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><?php echo $this->escapeHtml($this->title); ?></h4>
+        </div>
+        <div class="modal-body">
+            <p>Deseja remover o usuário <span id="user"></span>?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success">Confirmar</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+(function ($) {
+        /*
+    $('.delete').on('click', function(e){
+        $('#user').html($(this).attr('data-user'));
+        $('#confirmDelete').modal('toggle');
+        bootbox.confirm("Tem certeza que deseja remover este usuário?", function(result) {
+            console.log(result);
+        });
+    });
+        */ 
+
+    //$.extend(window, SlickEditor);
+
+})(jQuery);
+</script>

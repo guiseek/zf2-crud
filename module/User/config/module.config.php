@@ -39,4 +39,5 @@ return array(
             'user' => __DIR__ . '/../view',
         ),
     ),
+    
 );

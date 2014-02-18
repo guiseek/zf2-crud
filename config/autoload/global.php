@@ -22,6 +22,32 @@ return array(
     'service_manager' => array(
         'factories' => array(
             'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
+            'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+        ),
+    ),
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label' => 'Usuários',
+                'route' => 'user',
+                'pages' => array(
+                    array(
+                        'label' => 'Adicionar',
+                        'route' => 'user',
+                        'action' => 'add',
+                    ),
+                    array(
+                        'label' => 'Editar',
+                        'route' => 'user',
+                        'action' => 'edit',
+                    ),
+                    array(
+                        'label' => 'Remover',
+                        'route' => 'user',
+                        'action' => 'delete',
+                    ),
+                ),
+            ),
         ),
     ),
 );

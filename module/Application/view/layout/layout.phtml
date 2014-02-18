@@ -18,6 +18,7 @@
 
         <!-- Scripts -->
         <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/bootbox.min.js')
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery.min.js')
             ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
@@ -45,6 +46,8 @@
             </div>
         </nav>
         <div class="container">
+            <?php echo $this->partial('navigation.phtml'); ?>
+            <?php echo $this->partial('messages.phtml'); ?>
             <?php echo $this->content; ?>
             <hr>
             <footer>

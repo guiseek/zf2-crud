@@ -30,9 +30,10 @@ class UserController extends AbstractActionController
 
     public function indexAction()
     {
+        /*
         $partialLoop = $this->getSm()->get('viewhelpermanager')->get('PartialLoop');
         $partialLoop->setObjectKey('user');
-
+        */
         $urlAdd = $this->url()->fromRoute('user', array('action' => 'add'));
         $urlEdit = $this->url()->fromRoute('user', array('action' => 'edit'));
         $urlDelete = $this->url()->fromRoute('user', array('action' => 'delete'));
@@ -135,8 +136,8 @@ class UserController extends AbstractActionController
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $del = $request->getPost()->get('del', 'Nao');
-            if ($del == 'Sim') {
+            $del = $request->getPost()->get('del', 'Cancelar');
+            if ($del == 'Confirmar') {
                 $id = (int) $request->getPost()->get('id');
                 $this->getUserTable()->deleteUser($id);
 
