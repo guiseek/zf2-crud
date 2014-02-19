@@ -6,39 +6,45 @@
         <span class="glyphicon glyphicon-user"></span> Adicionar um usuário
     </a>
 </p>
-<table class="table table-hover">
-<tr>
-    <th>Usuário</th>
-    <th>Nome</th>
-    <th>E-mail</th>
-    <th>&nbsp;</th>
-</tr>
-<?php foreach($this->paginator as $user): ?>
-<tr>
-    <td><?php echo $this->escapeHtml($user->username); ?></td>
-    <td><?php echo $this->escapeHtml($user->nome); ?></td>
-    <td><?php echo $this->escapeHtml($user->email); ?></td>
-    <td>
-        <a class="btn btn-primary btn-xs" title="Editar" href="<?php echo $this->placeholder('url')->edit .'/'. $user->id; ?>">
-            <span class="glyphicon glyphicon-pencil"></span>
-        </a>
-        <!--
-            data-toggle="modal"
-            data-target=".bs-example-modal-sm"
-        -->        
-        <a
-            class="btn btn-danger btn-xs delete"
-            data-user="<?php echo $this->escapeHtml($user->username); ?>"
-            title="Remover"
-            href="<?php echo $this->placeholder('url')->delete .'/'. $user->id; ?>"
-            >
-            <span class="glyphicon glyphicon-trash"></span>
-        </a>
-    </td>
-</tr>
-<?php endforeach; ?>
-<?php //echo $this->partialLoop('users.phtml', $this->paginator); ?>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Usuário</th>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach($this->paginator as $user): ?>
+    <tr>
+        <td><?php echo $user->id; ?></td>
+        <td><?php echo $this->escapeHtml($user->username); ?></td>
+        <td><?php echo $this->escapeHtml($user->nome); ?></td>
+        <td><?php echo $this->escapeHtml($user->email); ?></td>
+        <td>
+            <div class="btn-group">
+                <a class="btn btn-default btn-xs" title="Editar" href="<?php echo $this->placeholder('url')->edit .'/'. $user->id; ?>">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <!--
+                    data-toggle="modal"
+                    data-target=".bs-example-modal-sm"
+                -->        
+                <a
+                    class="btn btn-default btn-xs delete"
+                    data-user="<?php echo $this->escapeHtml($user->username); ?>"
+                    title="Remover"
+                    href="<?php echo $this->placeholder('url')->delete .'/'. $user->id; ?>"
+                    >
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </div>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+    <?php //echo $this->partialLoop('users.phtml', $this->paginator); ?>
+    </table>
+</div>
 
 <div>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'pagination', array('route' => 'user')); ?>

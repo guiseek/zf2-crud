@@ -1,19 +1,51 @@
-<?php
-$title = 'Adicionar um usuário';
-$this->headTitle($title);
-?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
 <?php
 $form = $this->form;
-$form->setAttribute('action', $this->url('user', array('action' => 'add')));
 $form->prepare();
+$form->setAttribute('action', $this->url('user', array('action' => 'add')));
 
-echo $this->form()->openTag($form) . PHP_EOL;
-echo $this->formHidden($form->get('id')) . PHP_EOL;
-echo $this->formRow($form->get('username')) . PHP_EOL;
-echo $this->formRow($form->get('password')) . PHP_EOL;
-echo $this->formRow($form->get('nome')) . PHP_EOL;
-echo $this->formRow($form->get('email')) . PHP_EOL;
-echo $this->formInput($form->get('submit')) . PHP_EOL;
+// Get the form label plugin
+$formLabel = $this->plugin('formLabel');
+
+echo $this->form()->openTag($form);
+
+echo $this->formHidden($form->get('id'));
+?>
+<div class="form-group">
+<?php
+    $username = $form->get('username');
+    echo $formLabel->openTag() . $username->getOption('label') . $formLabel->closeTag();
+    echo $this->formInput($username);
+    echo $this->formElementErrors($username);
+?>
+</div>
+<div class="form-group">
+<?php
+    $password = $form->get('password');
+    echo $formLabel->openTag() . $password->getOption('label') . $formLabel->closeTag();
+    echo $this->formInput($password);
+    echo $this->formElementErrors($password);
+?>
+</div>
+<div class="form-group">
+<?php
+    $nome = $form->get('nome');
+    echo $formLabel->openTag() . $nome->getOption('label') . $formLabel->closeTag();
+    echo $this->formInput($nome);
+    echo $this->formElementErrors($nome);
+?>
+</div>
+<div class="form-group">
+<?php
+    $email = $form->get('email');
+    echo $formLabel->openTag() . $email->getOption('label') . $formLabel->closeTag();
+    echo $this->formInput($email);
+    echo $this->formElementErrors($email);
+?>
+</div>
+<?php
+$submit = $form->get('submit');
+echo $this->formInput($submit);
+
 echo $this->form()->closeTag($form) . PHP_EOL;

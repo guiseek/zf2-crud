@@ -62,7 +62,7 @@ class UserController extends AbstractActionController
     public function addAction()
     {
         $form = new UserForm();
-        $form->get('submit')->setAttribute('value', 'Add');
+        //$form->get('submit')->setAttribute('value', 'Add');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -72,14 +72,9 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $user->exchangeArray($form->getData());
 
-                try {
-                    $this->getUserTable()->saveUser($user);
-                    $this->flashMessenger()->addSuccessMessage('Usuário adicionado com sucesso.');
-                } catch (Zend_Exception $e) {
-                    $this->flashMessenger()->addErrorMessage($e->getMessage());
-                }
-
-                
+                $this->getUserTable()->saveUser($user);
+                $this->flashMessenger()->addSuccessMessage('Usuário adicionado com sucesso.');
+                //$this->flashMessenger()->addErrorMessage('Ocorreu um erro ao adicionar o usuário.');
 
                 // Redirect to list of users
                 return $this->redirect()->toRoute('user');

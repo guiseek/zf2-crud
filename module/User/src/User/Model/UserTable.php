@@ -5,6 +5,7 @@ namespace User\Model;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
+use Zend\Crypt\Password\Bcrypt;
 
 class UserTable extends AbstractTableGateway
 {
@@ -34,9 +35,12 @@ class UserTable extends AbstractTableGateway
 
     public function saveUser(User $user)
     {
+        $bcrypt = new Bcrypt();
+        $password = $bcrypt->create($user->password);
+        
         $data = array(
             'username' => $user->username,
-            'password'  => $user->password,
+            'password'  => $password,
             'nome' => $user->nome,
             'email' => $user->email,
         );

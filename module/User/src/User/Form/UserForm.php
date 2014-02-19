@@ -23,6 +23,7 @@ class UserForm extends Form
             'name' => 'username',
             'attributes' => array(
                 'type'  => 'text',
+                'class' => 'form-control',
             ),
             'options' => array(
                 'label' => 'Usuário',
@@ -33,6 +34,7 @@ class UserForm extends Form
             'name' => 'password',
             'attributes' => array(
                 'type'  => 'password',
+                'class' => 'form-control',
             ),
             'options' => array(
                 'label' => 'Senha',
@@ -43,6 +45,7 @@ class UserForm extends Form
             'name' => 'nome',
             'attributes' => array(
                 'type'  => 'text',
+                'class' => 'form-control',
             ),
             'options' => array(
                 'label' => 'Nome',
@@ -53,6 +56,7 @@ class UserForm extends Form
             'name' => 'email',
             'attributes' => array(
                 'type'  => 'email',
+                'class' => 'form-control',
             ),
             'options' => array(
                 'label' => 'E-mail',
@@ -63,7 +67,8 @@ class UserForm extends Form
             'name' => 'submit',
             'attributes' => array(
                 'type'  => 'submit',
-                'value' => 'Enviar',
+                'class' => 'btn btn-success',
+                'value' => 'Adicionar',
                 'id' => 'submitbutton',
             ),
         ));
