@@ -1,10 +1,23 @@
 <div class="page-header">
     <h1><?php echo $this->escapeHtml($this->title); ?></h1>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-primary" href="<?php echo $this->urlAdd; ?>">
+            <span class="glyphicon glyphicon-user"></span> Adicionar um usuário
+        </a>
+    </div>
+    <div class="col-md-6">
+    <?php $form = $this->form; $search = $form->get('search') ?>
+        <form class="navbar-form navbar-left pull-right" role="search">
+        <div class="form-group">
+            <?php echo $this->formInput($search); ?>
+        </div>
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </form>
+    </div>
+</div>
 <p>
-    <a class="btn btn-primary" href="<?php echo $this->urlAdd; ?>">
-        <span class="glyphicon glyphicon-user"></span> Adicionar um usuário
-    </a>
 </p>
 <div class="table-responsive">
     <table class="table table-hover">
@@ -31,7 +44,9 @@
                     data-target=".bs-example-modal-sm"
                 -->        
                 <a
-                    class="btn btn-default btn-xs delete"
+                    class="btn btn-default btn-xs mySmallModalLabel delete"
+                    data-toggle="confirmDelete"
+                    data-target="#confirmDelete"
                     data-user="<?php echo $this->escapeHtml($user->username); ?>"
                     title="Remover"
                     href="<?php echo $this->placeholder('url')->delete .'/'. $user->id; ?>"
@@ -63,25 +78,27 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-success">Confirmar</button>
+            <button type="button" class="btn btn-success">Remover</button>
         </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
+/*
 (function ($) {
-        /*
     $('.delete').on('click', function(e){
+        e.preventDefault();
         $('#user').html($(this).attr('data-user'));
         $('#confirmDelete').modal('toggle');
-        bootbox.confirm("Tem certeza que deseja remover este usuário?", function(result) {
-            console.log(result);
+
+        $('#confirmDelete .btn-success').on('click', function(e){
+            alert('success');
         });
     });
-        */ 
 
     //$.extend(window, SlickEditor);
 
 })(jQuery);
+*/
 </script>

@@ -1,4 +1,10 @@
-<h1><?php echo $this->escapeHtml($title); ?></h1>
+<div class="row">
+    <div class="col-md-12">
+        <h1><?php echo $this->escapeHtml($title); ?></h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
 
 <?php
 $form = $this->form;
@@ -8,44 +14,70 @@ $form->setAttribute('action', $this->url('user', array('action' => 'add')));
 // Get the form label plugin
 $formLabel = $this->plugin('formLabel');
 
+// Get form names
+$username = $form->get('username');
+$password = $form->get('password');
+$nome = $form->get('nome');
+$email = $form->get('email');
+$reset = $form->get('reset');
+$submit = $form->get('submit');
+
 echo $this->form()->openTag($form);
 
 echo $this->formHidden($form->get('id'));
 ?>
 <div class="form-group">
-<?php
-    $username = $form->get('username');
-    echo $formLabel->openTag() . $username->getOption('label') . $formLabel->closeTag();
-    echo $this->formInput($username);
-    echo $this->formElementErrors($username);
-?>
+    <?php echo $formLabel->openTag() . $nome->getOption('label') . $formLabel->closeTag(); ?>
+    <div class="input-group<?php echo ($this->formElementErrors($nome)) ? ' has-success' : ''; ?>">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+        <?php echo $this->formInput($nome); ?>
+    </div>
+    <?php if ($this->formElementErrors($nome)): ?>
+    <?php echo $this->formElementErrors($nome, array('class' => 'alert alert-danger')); ?>
+    <?php endif; ?>
 </div>
-<div class="form-group">
-<?php
-    $password = $form->get('password');
-    echo $formLabel->openTag() . $password->getOption('label') . $formLabel->closeTag();
-    echo $this->formInput($password);
-    echo $this->formElementErrors($password);
-?>
-</div>
-<div class="form-group">
-<?php
-    $nome = $form->get('nome');
-    echo $formLabel->openTag() . $nome->getOption('label') . $formLabel->closeTag();
-    echo $this->formInput($nome);
-    echo $this->formElementErrors($nome);
-?>
-</div>
-<div class="form-group">
-<?php
-    $email = $form->get('email');
-    echo $formLabel->openTag() . $email->getOption('label') . $formLabel->closeTag();
-    echo $this->formInput($email);
-    echo $this->formElementErrors($email);
-?>
-</div>
-<?php
-$submit = $form->get('submit');
-echo $this->formInput($submit);
 
+<div class="form-group">
+    <?php echo $formLabel->openTag() . $email->getOption('label') . $formLabel->closeTag(); ?>
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+        <?php echo $this->formInput($email); ?>
+    </div>
+    <?php if ($this->formElementErrors($email)): ?>
+    <?php echo $this->formElementErrors($email, array('class' => 'alert alert-danger')); ?>
+    <?php endif; ?>
+</div>
+
+<div class="form-group">
+    <?php echo $formLabel->openTag() . $username->getOption('label') . $formLabel->closeTag(); ?>
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+        <?php echo $this->formInput($username); ?>
+    </div>
+    <?php if ($this->formElementErrors($username)): ?>
+    <?php echo $this->formElementErrors($username, array('class' => 'alert alert-danger')); ?>
+    <?php endif; ?>
+</div>
+
+<div class="form-group">
+    <?php echo $formLabel->openTag() . $password->getOption('label') . $formLabel->closeTag(); ?>
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-fire"></span></span>
+        <?php echo $this->formInput($password); ?>
+    </div>
+    <?php if ($this->formElementErrors($password)): ?>
+    <?php echo $this->formElementErrors($password, array('class' => 'alert alert-danger')); ?>
+    <?php endif; ?>
+</div>
+
+<div class="form-group">
+<?php
+//echo $this->formInput($reset);
+echo $this->formInput($submit);
+?>
+</div>
+<?php
 echo $this->form()->closeTag($form) . PHP_EOL;
+?>
+    </div>
+</div> <!-- Finaliza .row -->

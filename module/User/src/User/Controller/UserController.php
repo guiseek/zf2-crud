@@ -11,6 +11,7 @@ namespace User\Controller;
 
 use User\Model\User;
 use User\Form\UserForm;
+use User\Form\SearchForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
@@ -43,20 +44,28 @@ class UserController extends AbstractActionController
         $placeHolder('url')->edit = $urlEdit;
         $placeHolder('url')->delete = $urlDelete;
 
-        $pageAdapter = new DbSelect($this->getUserTable()->getSelect(), $this->getUserTable()->getSql());
+        $pageAdapter = new DbSelect($this->getUserTable()->getSelect(null, 'id DESC'), $this->getUserTable()->getSql());
         $paginator = new Paginator($pageAdapter);
         $paginator->setItemCountPerPage(5);
         $paginator->setCurrentPageNumber($this->params()->fromRoute('page', 1));
+
+        $form = new SearchForm('usuários');
+        //$form->get('submit')->setAttribute('value', 'Add');
 
         return new ViewModel(
             array(
                 'paginator' => $paginator,
                 //'users' => $this->getUserTable()->fetchAll(),
+                'form' => $form,
                 'title' => $this->setAndGetTitle(),
                 'urlAdd' => $urlAdd,
                 'urlHome' => $urlHome,
             )
         );
+    }
+
+    public function loginAction()
+    {
     }
 
     public function addAction()
@@ -98,7 +107,7 @@ class UserController extends AbstractActionController
 
         $form = new UserForm();
         $form->bind($user);
-        $form->get('submit')->setAttribute('value', 'Edit');
+        $form->get('submit')->setAttribute('value', 'Editar');
         
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -132,7 +141,7 @@ class UserController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
             $del = $request->getPost()->get('del', 'Cancelar');
-            if ($del == 'Confirmar') {
+            if ($del == 'Remover') {
                 $id = (int) $request->getPost()->get('id');
                 $this->getUserTable()->deleteUser($id);
 

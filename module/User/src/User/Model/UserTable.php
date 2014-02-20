@@ -18,7 +18,9 @@ class UserTable extends AbstractTableGateway
 
     public function fetchAll()
     {
-        $resultSet = $this->tableGateway->select();
+        $resultSet = $this->tableGateway->select(function (Select $select) {
+            $select->order('id DESC');
+        });
         return $resultSet;
     }
 
@@ -52,7 +54,7 @@ class UserTable extends AbstractTableGateway
             if ($this->getUser($id)) {
                 $this->tableGateway->update($data, array('id' => $id));
             } else {
-                throw new \Exception('Form id does not exist');
+                throw new \Exception('Id não existe.');
             }
         }
     }
@@ -67,9 +69,15 @@ class UserTable extends AbstractTableGateway
     {
         return $this->tableGateway->getSql();
     }
-    public function getSelect()
+    public function getSelect($where = null, $order = null)
     {
         $select = new Select($this->tableGateway->getTable());
+        if ($where) {
+            $select->where($where);
+        }
+        if ($order) {
+            $select->order($order);
+        }
         return $select;
     }
 }

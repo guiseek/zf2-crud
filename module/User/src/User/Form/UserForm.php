@@ -26,7 +26,7 @@ class UserForm extends Form
                 'class' => 'form-control',
             ),
             'options' => array(
-                'label' => 'Usuário',
+                'label' => 'Usuário para acesso',
             ),
         ));
 
@@ -37,7 +37,7 @@ class UserForm extends Form
                 'class' => 'form-control',
             ),
             'options' => array(
-                'label' => 'Senha',
+                'label' => 'Senha para acesso',
             ),
         ));
 
@@ -48,7 +48,7 @@ class UserForm extends Form
                 'class' => 'form-control',
             ),
             'options' => array(
-                'label' => 'Nome',
+                'label' => 'Nome completo',
             ),
         ));
 
@@ -59,7 +59,7 @@ class UserForm extends Form
                 'class' => 'form-control',
             ),
             'options' => array(
-                'label' => 'E-mail',
+                'label' => 'Endereço de e-mail',
             ),
         ));
 
@@ -70,6 +70,16 @@ class UserForm extends Form
                 'class' => 'btn btn-success',
                 'value' => 'Adicionar',
                 'id' => 'submitbutton',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'reset',
+            'attributes' => array(
+                'type'  => 'reset',
+                'class' => 'btn btn-default',
+                'value' => 'Limpar',
+                'id' => 'resetbutton',
             ),
         ));
 

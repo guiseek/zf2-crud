@@ -7,8 +7,8 @@
 <?php $url = $this->url('user', array('action' => 'delete', 'id'=>$this->id)); ?>
 <form action="<?php echo $url; ?>" method="post">
 <div>
-  <input type="hidden" name="id" value="<?php echo (int) $user->id; ?>" />
-  <input class="btn btn-default" type="submit" name="del" value="Cancelar" />
-  <input class="btn btn-success" type="submit" name="del" value="Confirmar" />
+	<input type="hidden" name="id" value="<?php echo (int) $user->id; ?>" />
+	<input class="btn btn-default" type="submit" name="del" value="Cancelar" />
+	<input class="btn btn-success" type="submit" name="del" value="Remover" />
 </div>
 </form>
